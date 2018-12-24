@@ -1,0 +1,71 @@
+battcn:
+    security:
+        token:
+            expiration-time: 1800
+spring:
+    application:
+        name: service-user
+    datasource:
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+        driverClassName: com.mysql.jdbc.Driver
+        filters: stat,wall,log4j
+        initialSize: 5
+        maxActive: 20
+        maxPoolPreparedStatementPerConnectionSize: 20
+        maxWait: 60000
+        minEvictableIdleTimeMillis: 300000
+        minIdle: 5
+        password: Lx@520zx
+        poolPreparedStatements: true
+        testOnBorrow: false
+        testOnReturn: false
+        testWhileIdle: true
+        timeBetweenEvictionRunsMillis: 60000
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://${pro.ip}:3306/books?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        validationQuery: SELECT 1 FROM DUAL
+    security:
+      user:
+        name: lx
+        password: zx
+    mail:
+      host: smtp.qq.com
+      username: lx_stu@qq.com
+      password: rbnkauwcxidzbfei
+    main:
+      allow-bean-definition-overriding: true
+#    redis:
+#      host: 193.112.113.194
+#      jedis:
+#        pool:
+#          max-idle: 8
+#          max-active: 8
+#          max-wait: -1
+#      port: 6699
+#      database: 0
+#      timeout: 0
+server:
+  port: 8988
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.user.model
+  configuration:
+    local-cache-scope: statement
+    cache-enabled: true
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+logging:
+  config: classpath:logback-spring.xml
+pro:
+  ip: 193.112.113.194
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://lx:zx@${pro.ip}:8766/eureka/  # 指定注册中心的地址
+  instance:
+    prefer-ip-address: true

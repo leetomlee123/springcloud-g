@@ -1,0 +1,14 @@
+server:
+  port: 7778
+spring:
+  rabbitmq:
+    password: 1234
+    username: lx
+    host: 193.112.113.194
+    port: 5672
+    virtual-host: test
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: mqTest

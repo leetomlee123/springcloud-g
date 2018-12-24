@@ -1,0 +1,19 @@
+version: '3'
+services:
+  eureka:
+    build: ../eureka
+    ports:
+      - 8766:8766
+  user:
+    build: ../user
+    ports:
+      - 8988:8988
+  gateway:
+    build: ../gateway
+    ports:
+      - 17080:17080
+  invoke:
+    build: ../invoke
+    ports:
+      - 8880:8880
+

@@ -1,0 +1,18 @@
+socket:
+  port: 9998
+spring:
+  application:
+    name: im
+  redis:
+    host: ${pro.ip}
+    jedis:
+      pool:
+        max-idle: 8
+        max-active: 8
+        max-wait: -1
+    port: 6699
+    database: 0
+    timeout: 5000
+pro:
+  ip: 193.112.113.194
+

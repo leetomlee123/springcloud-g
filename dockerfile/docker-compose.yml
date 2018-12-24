@@ -1,0 +1,22 @@
+version: '3'
+services:
+  eureka:
+    image: eureka
+    ports:
+      - 8766:8766
+    container_name: eureka
+  user:
+    image: user
+    ports:
+      - 8988:8988
+    container_name: user
+  gateway:
+    image: gateway
+    ports:
+      - 17080:17080
+    container_name: gateway
+  invoke:
+    image: invoke
+    ports:
+      - 8880:8880
+    container_name: invoke
