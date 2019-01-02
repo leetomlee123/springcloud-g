@@ -6,6 +6,7 @@ import com.example.user.service.IUserService;
 import com.example.user.service.UserTokenService;
 import com.example.user.serviceimpl.UserImpl;
 import com.example.user.util.EmailTool;
+import com.leetomlee.cloud.common.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import java.util.Date;
 /**
  * @author lee
  */
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
@@ -61,6 +63,8 @@ public class UserController {
             @RequestParam("password") String password
 
     ) {
+        LOG.info(DateUtil.getFormatDateTime(new Date()));
+
         if (panoramicUserService.getUserInfo(username, new BCryptPasswordEncoder(12, new SecureRandom("leetomlee123".getBytes())).encode(password)) == null) {
             return ResponseEntity.badRequest().body("用户名或密码错误或邮箱未激活！");
 

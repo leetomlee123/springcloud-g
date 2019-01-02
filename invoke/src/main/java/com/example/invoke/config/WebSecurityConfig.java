@@ -79,6 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/movies/**").permitAll()
                 .antMatchers("/miuis/**").permitAll()
+                .antMatchers("/actuator/health").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(new TokenAuthenticationFilter(userTokenService, jwtUserDetailsService), BasicAuthenticationFilter.class);
         http.csrf().disable();

@@ -61,7 +61,7 @@ spring:
     elasticsearch:
       repositories:
         enabled: true
-      cluster-nodes: 127.0.0.1:9300
+      cluster-nodes: ${pro.ip}:9200
       cluster-name: elasticsearch
   redis:
     host: 193.112.113.194
@@ -70,9 +70,10 @@ spring:
         max-idle: 8
         max-active: 8
         max-wait: -1
-    port: 6699
+    port: 6379
     database: 0
     timeout: 0
+    password: lovecache
   security:
     user:
       name: lx
@@ -81,6 +82,15 @@ spring:
     name: service-invoke
   main:
     allow-bean-definition-overriding: true
+  cloud:
+    cloud:
+      consul:
+        host: 127.0.0.1
+        port: 8500
+    consul:
+      discovery:
+        instance-id: ${spring.application.name}
+        prefer-ip-address: true
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.example.invoke.model
@@ -97,9 +107,3 @@ logging:
   config: classpath:logback-spring.xml
 pro:
   ip: 193.112.113.194
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone:  http://lx:zx@127.0.0.1:8766/eureka/  # 指定注册中心的地址
-#  instance:
-#    prefer-ip-address: true

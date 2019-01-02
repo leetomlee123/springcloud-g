@@ -6,16 +6,13 @@
       <module fileurl="file://$PROJECT_DIR$/message/consumer/consumer.iml" filepath="$PROJECT_DIR$/message/consumer/consumer.iml" />
       <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/elasticsearch/elasticsearch.iml" filepath="$PROJECT_DIR$/elasticsearch/elasticsearch.iml" />
-      <module fileurl="file://$PROJECT_DIR$/elasticserarch/elasticserarch.iml" filepath="$PROJECT_DIR$/elasticserarch/elasticserarch.iml" />
       <module fileurl="file://$PROJECT_DIR$/eureka/eureka.iml" filepath="$PROJECT_DIR$/eureka/eureka.iml" />
       <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
-      <module fileurl="file://$PROJECT_DIR$/im/im.iml" filepath="$PROJECT_DIR$/im/im.iml" />
       <module fileurl="file://$PROJECT_DIR$/invoke/invoke.iml" filepath="$PROJECT_DIR$/invoke/invoke.iml" />
       <module fileurl="file://$PROJECT_DIR$/message/message.iml" filepath="$PROJECT_DIR$/message/message.iml" />
       <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/message/producer/producer.iml" filepath="$PROJECT_DIR$/message/producer/producer.iml" />
       <module fileurl="file://$PROJECT_DIR$/springcloud-Finchley.SR4.iml" filepath="$PROJECT_DIR$/springcloud-Finchley.SR4.iml" />
-      <module fileurl="file://$PROJECT_DIR$/stream-message/stream-producer.iml" filepath="$PROJECT_DIR$/stream-message/stream-producer.iml" />
       <module fileurl="file://$PROJECT_DIR$/user/user.iml" filepath="$PROJECT_DIR$/user/user.iml" />
       <module fileurl="file://$PROJECT_DIR$/webflux/webflux.iml" filepath="$PROJECT_DIR$/webflux/webflux.iml" />
     </modules>

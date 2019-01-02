@@ -10,13 +10,15 @@
     <packaging>pom</packaging>
     <modules>
         <module>parent</module>
-        <module>message</module>
+        <!--<module>message</module>-->
         <module>invoke</module>
         <module>user</module>
         <module>gateway</module>
         <module>common</module>
-        <module>im</module>
-        <module>webflux</module>
-        <module>eureka</module>
+        <!--<module>im</module>-->
+        <!--<module>webflux</module>-->
+        <!--<module>eureka</module>-->
+        <!--<module>elasticsearch</module>-->
+        <!--<module>demo</module>-->
     </modules>
 </project>

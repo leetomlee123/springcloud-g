@@ -1,104 +1,84 @@
 package com.example.gateway;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.leetomlee.cloud.common.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
-import org.springframework.http.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
+import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.Date;
+import java.util.Optional;
 
 /**
  * @author lee
  */
 @SpringBootApplication
-@EnableDiscoveryClient
 @RestController
 @Slf4j
+@EnableDiscoveryClient
 public class GatewayApplication {
-    @Autowired
-    private LoadBalancerClient loadBalancer;
-    @Autowired
-    private DiscoveryClient discoveryClient;
-
-
     public static void main(String[] args) {
-        SpringApplication.run(GatewayApplication.class, args);
-        log.info(" Start APIGatewayApplication Done");
-
+        SpringApplication.run(GatewayApplication.class);
     }
 
 
-    @GetMapping("/fallback")
-    public ResponseEntity fallback() {
-        return ResponseEntity.ok(ResponseEntity.status(404).body("服务中断"));
+    @Bean
+    public RouteLocator myRoutes(RouteLocatorBuilder builder) {
+
+        return builder.routes()
+                .route(p -> p
+                        .path("/invoke/**")
+                        .filters(f -> f
+                                .addRequestHeader("Hello", "World")
+                                .stripPrefix(1))
+                        .uri("lb://service-invoke"))
+                .route(p -> p
+                        .path("/user/**")
+                        .filters(f -> f
+                                .addRequestHeader("Hello", "World")
+                                .stripPrefix(1)
+                                .requestRateLimiter(l -> l
+                                        .setKeyResolver(keyResolver())
+                                        .setRateLimiter(redisRateLimiter())))
+                        .uri("lb://service-user"))
+                .build();
     }
 
-    /**
-     * 获取所有服务
-     */
-    @RequestMapping("/services/{serviceId}")
-    public Object services(@PathVariable(value = "serviceId") String serviceId) {
-
-        return discoveryClient.getInstances(serviceId);
+    @Bean
+    RedisRateLimiter redisRateLimiter() {
+        return new RedisRateLimiter(10, 100);
     }
 
+    class UriKeyResolver implements KeyResolver {
 
-    /**
-     * 从所有服务中选择一个服务（轮询）
-     */
-    @RequestMapping("/call")
-    public ResponseEntity discover() {
-        ServiceInstance choose = loadBalancer.choose("service-user");
-        System.out.println("服务地址：" + choose.getUri());
-        System.out.println("服务名称：" + choose.getServiceId());
-        String url = choose.getUri().toString() + "/users/auth";
-        HttpHeaders headers = new HttpHeaders();
-//  请勿轻易改变此提交方式，大部分的情况下，提交方式都是表单提交
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//  封装参数，千万不要替换为Map与HashMap，否则参数无法传递
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.put("username", Collections.singletonList("lx"));
-        params.put("password", Collections.singletonList("123456789"));
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, headers);
-        return new RestTemplate().postForEntity(url, requestEntity, String.class);
+        @Override
+        public Mono<String> resolve(ServerWebExchange exchange) {
+            log.info("请求ip:" + exchange.getRequest().getRemoteAddress() + "时间:" + DateUtil.getFormatDateTime(new Date()));
+            log.info(exchange.getRequest().getURI().getPath());
+            //用户认证接口限流
+            return Mono.just("/users/auth");
+        }
+
     }
 
-    @RequestMapping("/miui")
-    public ResponseEntity miui() {
-        ServiceInstance choose = loadBalancer.choose("service-invoke");
-        System.out.println("服务地址：" + choose.getUri());
-        System.out.println("服务名称：" + choose.getServiceId());
-        String url = choose.getUri().toString() + "/miuis/100/100";
-        HttpHeaders headers = new HttpHeaders();
-        ResponseEntity discover = discover();
-        Object parse = JSON.parse(discover.getBody().toString());
-        String token = ((JSONObject) parse).get("token").toString();
-        RestTemplate restTemplate = new RestTemplate();
-        headers.add("Authorization", "Bearer " + token);
-        HttpEntity<String> request = new HttpEntity<>(headers);
-        return ResponseEntity.ok(restTemplate.exchange(url, HttpMethod.GET, request, String.class));
+    @Bean
+    public UriKeyResolver keyResolver() {
+        return new UriKeyResolver();
     }
 
-    @RequestMapping("/error")
-    public List<String> error() {
-        return Arrays.asList("sorry, something went wrong.");
-    }
 
 }
+
+

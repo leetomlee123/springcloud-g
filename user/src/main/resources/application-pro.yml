@@ -30,11 +30,30 @@ spring:
         name: lx
         password: zx
     mail:
-      host: smtp.qq.com
-      username: lx_stu@qq.com
-      password: rbnkauwcxidzbfei
+      username: lixiang@newhope-data.com
+      password: czahabWaqhYivBWM
+      host: smtp.exmail.qq.com
+      port: 465
+      protocol: smtp
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+              required: true
+            ssl:
+              enable: true
     main:
       allow-bean-definition-overriding: true
+    cloud:
+      consul:
+        discovery:
+          instance-id: ${spring.application.name}
+          prefer-ip-address: true
+        port: 8500
+        host: ${pro.ip}
+
 #    redis:
 #      host: 193.112.113.194
 #      jedis:
@@ -63,9 +82,3 @@ logging:
   config: classpath:logback-spring.xml
 pro:
   ip: 193.112.113.194
-eureka:
-  client:
-    service-url:
-      defaultZone:  http://lx:zx@${pro.ip}:8766/eureka/  # 指定注册中心的地址
-  instance:
-    prefer-ip-address: true

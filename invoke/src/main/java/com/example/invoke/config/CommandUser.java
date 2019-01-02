@@ -46,16 +46,16 @@ public class CommandUser extends HystrixCommand<String> {
 
 
     @Override
-    public String run() throws Exception {
+    public String run() {
 
         LOGGER.info("userName=[{}]", userName);
 
-        TimeUnit.MILLISECONDS.sleep(100);
         return "userName=" + userName;
     }
 
     public static void main(String[] args) {
         com.example.invoke.config.CommandUser commandUser = new CommandUser("lee");
+        commandUser.execute();
     }
 
 }

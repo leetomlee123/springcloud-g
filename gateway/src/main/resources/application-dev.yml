@@ -5,19 +5,18 @@ spring:
     name: service-gateway
   redis:
     host: 193.112.113.194
-    jedis:
-      pool:
-        max-idle: 8
-        max-active: 8
-        max-wait: -1
-    port: 6699
+    port: 6379
     database: 0
     timeout: 5000
+    password: lovecache
   main:
     allow-bean-definition-overriding: true
-eureka:
-  client:
-    service-url:
-      defaultZone:  http://lx:zx@localhost:8766/eureka/  # 指定注册中心的地址
-  instance:
-    prefer-ip-address: true
+  cloud:
+    consul:
+      port: 8500
+      host: 127.0.0.1
+      discovery:
+        instance-id: ${spring.application.name}
+        prefer-ip-address: true
+
+

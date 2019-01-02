@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration  scan="true" scanPeriod="60 seconds" debug="false">
-    <contextName>panoramic-monitor-manage</contextName>
+    <contextName>test-invoke-component</contextName>
 
     <property name="logback.logdir" value="/usr/local/server/logs"/>
     <property name="logback.appname" value="example-invoke"/>

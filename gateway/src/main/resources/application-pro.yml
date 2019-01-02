@@ -3,29 +3,20 @@ server:
 spring:
   redis:
     host: ${pro.ip}
-    jedis:
-      pool:
-        max-idle: 8
-        max-active: 8
-        max-wait: -1
-    port: 6699
+    port: 6379
     database: 0
     timeout: 5000
-    lettuce:
-      pool:
-        max-active: 8
-        max-wait: -1
-        max-idle: 8
-        min-idle: 0
+    password: lovecache
   application:
     name: service-gateway
   main:
     allow-bean-definition-overriding: true
-eureka:
-  client:
-    service-url:
-      defaultZone:  http://lx:zx@${pro.ip}:8766/eureka/  # 指定注册中心的地址
-  instance:
-    prefer-ip-address: true
+  cloud:
+    consul:
+      host: ${pro.ip}
+      port: 8500
+      discovery:
+        instance-id: ${spring.application.name}
+        prefer-ip-address: true
 pro:
   ip: 193.112.113.194

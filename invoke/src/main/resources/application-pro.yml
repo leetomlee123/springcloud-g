@@ -73,14 +73,22 @@ spring:
     port: 6699
     database: 0
     timeout: 0
+    password: lovecache
   security:
     user:
       name: lx
       password: zx
   application:
     name: service-invoke
-#  main:
-#    allow-bean-definition-overriding: true
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    consul:
+      discovery:
+        instance-id: ${spring.application.name}
+        prefer-ip-address: true
+      port: 8500
+      host: ${pro.ip}
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.example.invoke.model
@@ -97,9 +105,3 @@ logging:
   config: classpath:logback-spring.xml
 pro:
   ip: 193.112.113.194
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone:  http://lx:zx@${pro.ip}:8766/eureka/  # 指定注册中心的地址
-#  instance:
-#    prefer-ip-address: true

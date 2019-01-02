@@ -6,7 +6,7 @@ public class UserTokenState {
 	 * 访问token
 	 */
     private String accessToken;
-    
+
     /**
      * 有效时间
      */
