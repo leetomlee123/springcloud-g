@@ -172,29 +172,34 @@
         不能设置为INHERITED或者同义词NULL。默认是DEBUG
         可以包含零个或多个元素，标识这个appender将会添加到这个logger。
     -->
-
+    <appender name="LOGSTASH"
+              class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:9601</destination>
+        <!-- encoder必须配置,有多种可选 -->
+        <encoder charset="UTF-8"
+                 class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"application-name":"user-service"}</customFields>
+        </encoder>
+    </appender>
+    <logger name="com.example.invoke.dao" level="DEBUG"/>
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
-        <logger name="com.example.invoke.dao" level="DEBUG"/>
+        <root level="info">
+            <appender-ref ref="LOGSTASH"/>
+            <appender-ref ref="CONSOLE"/>
+        </root>
     </springProfile>
-    <root level="DEBUG">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="DEBUG_FILE"/>
-        <appender-ref ref="INFO_FILE"/>
-        <appender-ref ref="WARN_FILE"/>
-        <appender-ref ref="ERROR_FILE"/>
-    </root>
 
 
     <!--生产环境:输出到文件-->
-    <!--<springProfile name="pro">-->
-    <!--<root level="error">-->
-    <!--<appender-ref ref="CONSOLE"/>-->
-    <!--<appender-ref ref="DEBUG_FILE"/>-->
-    <!--<appender-ref ref="INFO_FILE"/>-->
-    <!--<appender-ref ref="ERROR_FILE"/>-->
-    <!--<appender-ref ref="WARN_FILE"/>-->
-    <!--</root>-->
-    <!--</springProfile>-->
+    <springProfile name="pro">
+        <root level="error">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="DEBUG_FILE"/>
+            <appender-ref ref="INFO_FILE"/>
+            <appender-ref ref="ERROR_FILE"/>
+            <appender-ref ref="WARN_FILE"/>
+        </root>
+    </springProfile>
 
 </configuration>
