@@ -13,6 +13,7 @@
       <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/message/producer/producer.iml" filepath="$PROJECT_DIR$/message/producer/producer.iml" />
       <module fileurl="file://$PROJECT_DIR$/springcloud-Finchley.SR4.iml" filepath="$PROJECT_DIR$/springcloud-Finchley.SR4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springcloud-FinchleySR4.iml" filepath="$PROJECT_DIR$/springcloud-FinchleySR4.iml" />
       <module fileurl="file://$PROJECT_DIR$/user/user.iml" filepath="$PROJECT_DIR$/user/user.iml" />
       <module fileurl="file://$PROJECT_DIR$/webflux/webflux.iml" filepath="$PROJECT_DIR$/webflux/webflux.iml" />
     </modules>
