@@ -36,6 +36,7 @@
       <module name="parent" target="1.8" />
       <module name="producer" target="1.8" />
       <module name="springcloud-Finchley.SR4" target="1.5" />
+      <module name="springcloud-FinchleySR4" target="1.5" />
       <module name="stream-message" target="1.8" />
       <module name="stream-producer" target="1.8" />
       <module name="user" target="8" />
