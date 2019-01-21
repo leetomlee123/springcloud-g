@@ -53,10 +53,10 @@ spring:
     jedis:
       pool:
         max-active:
-    password:
+    password: lovecache
   cloud:
     consul:
-      host: 127.0.0.1
+      host: 192.168.81.129
       port: 8500
       discovery:
         instance-id: ${spring.application.name}
