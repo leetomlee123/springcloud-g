@@ -178,10 +178,10 @@
         <!-- encoder必须配置,有多种可选 -->
         <encoder charset="UTF-8"
                  class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"application-name":"user-service"}</customFields>
+            <customFields>{"application-name":"gateway-service"}</customFields>
         </encoder>
     </appender>
-    <logger name="com.example.invoke.dao" level="DEBUG"/>
+
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
         <root level="info">

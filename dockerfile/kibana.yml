@@ -1,0 +1,7 @@
+version: '3'
+services:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.5.4
+    environment:
+      ELASTICSEARCH_URL: 192.168.81.129:9200              
+

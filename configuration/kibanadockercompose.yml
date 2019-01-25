@@ -1,0 +1,12 @@
+version: '3'                                            #定义docker compose的版本
+services:
+  kibanatest:
+    image: docker.elastic.co/kibana/kibana-oss:6.5.4   #设置docker镜像，此处使用oss版，es上装了xpack的请去掉"-oss"
+    container_name: kibana]               #自定义容器名称，随意
+    volumes:                                               #这里列出更改或加入的文件，注意格式，这是一个数组
+      - ./plugins:/usr/share/kibana/plugins:rw             #这里加入了一个plugin文件夹，将它里面的内容写入kibana/plugins文件夹下
+    environment:
+      ELASTICSEARCH_URL: 192.168.81.129:9200         #设置elasticsearch服务器url
+      OPS_INTERVAL: 60000
+    ports:                                                 #设置kibana端口，注意这是一个数组
+      - "5601:5601"

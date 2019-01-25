@@ -65,8 +65,7 @@ public class GatewayApplication {
 
         @Override
         public Mono<String> resolve(ServerWebExchange exchange) {
-            log.info("请求ip:" + exchange.getRequest().getRemoteAddress() + "时间:" + DateUtil.getFormatDateTime(new Date()));
-            log.info(exchange.getRequest().getURI().getPath());
+
             //用户认证接口限流
             return Mono.just("/users/auth");
         }
