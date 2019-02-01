@@ -1,9 +1,5 @@
-FROM docker.elastic.co/logstash/logstash:5.5.2
-ADD logstash.conf logstash.conf
-#安装input插件 安装超级慢
-RUN logstash-plugin install logstash-input-log4j
-#安装output插件
-RUN logstash-plugin install logstash-output-elasticsearch
-#容器启动时执行的命令.(CMD 能够被 docker run 后面跟的命令行参数替换)
-CMD ["-f", "logstash.conf"]
+FROM docker.elastic.co/logstash/logstash:6.5.4@sha256:aeb0cc317b51b01ac90216726ba6e636da9fbb5285056b2ffc81e7ee0539faf2
+#自定义输入、输出流
+RUN rm -f /usr/share/logstash/pipeline/logstash.conf
+ADD logstash.conf /usr/share/logstash/pipeline/
 

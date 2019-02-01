@@ -164,7 +164,8 @@
         第一种把<root level="info">改成<root level="DEBUG">这样就会打印sql，不过这样日志那边会出现很多其他消息
         第二种就是单独给dao下目录配置debug模式，代码如下，这样配置sql语句会打印，其他还是正常info级别：
      -->
-
+    https://movie.douban.com/celebrity/1321587/photos/
+    https://movie.douban.com/celebrity/1374201/photos/
 
     <!--
         root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性
@@ -174,7 +175,7 @@
     -->
     <appender name="LOGSTASH"
               class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>192.168.10.138:9601</destination>
+        <destination>192.168.81.129:9601</destination>
         <!-- encoder必须配置,有多种可选 -->
         <encoder charset="UTF-8"
                  class="net.logstash.logback.encoder.LogstashEncoder">

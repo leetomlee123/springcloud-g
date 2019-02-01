@@ -6,9 +6,7 @@ import com.example.user.service.IUserService;
 import com.example.user.service.UserTokenService;
 import com.example.user.serviceimpl.UserImpl;
 import com.example.user.util.EmailTool;
-import com.leetomlee.cloud.common.util.DateUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,11 +31,10 @@ import java.util.Date;
 /**
  * @author lee
  */
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
-    private final Logger LOG = LoggerFactory.getLogger(UserController.class);
     @Qualifier(value = "userImpl")
     @Autowired
     private UserImpl userImpl;
@@ -63,7 +60,6 @@ public class UserController {
             @RequestParam("password") String password
 
     ) {
-        LOG.info(DateUtil.getFormatDateTime(new Date()));
 
         if (panoramicUserService.getUserInfo(username, new BCryptPasswordEncoder(12, new SecureRandom("leetomlee123".getBytes())).encode(password)) == null) {
             return ResponseEntity.badRequest().body("用户名或密码错误或邮箱未激活！");
@@ -75,7 +71,7 @@ public class UserController {
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
             User user = (User) authentication.getPrincipal();
-            String jws = userTokenService.generateToken(user.getLoginName(),user.getAuthoritie(), expireTime);
+            String jws = userTokenService.generateToken(user.getLoginName(), user.getAuthoritie(), expireTime);
             return ResponseEntity.ok(new UserTokenState(jws, Integer.valueOf(expireTime)));
         } catch (Exception e) {
             return ResponseEntity.ok(new UserTokenState());
@@ -86,27 +82,28 @@ public class UserController {
     public ResponseEntity addUser(User user) {
 
         if (StringUtils.isEmpty(user)) {
-            return new ResponseEntity("参数不能为空", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.ok("参数不能为空");
         } else {
             if (!userImpl.registerCheck(user)) {
-                return new ResponseEntity("用户名or邮箱已存在", HttpStatus.CONFLICT);
+                return ResponseEntity.ok("用户名or邮箱已存在");
             }
             user.setPassword(new BCryptPasswordEncoder(12, new SecureRandom("leetomlee123".getBytes())).encode(user.getPassword()));
             user.setCtime(new Date());
             user.setOperator("web");
             userImpl.addUser(user);
-            emailTool.sendSimpleMail(user.getEmail(), "http://193.112.113.194:17080/user/users/active/" + user.getId());
+            new Thread(() -> emailTool.sendSimpleMail(user.getEmail(), "http://192.168.81.129:17080/user/users/active/" + user.getId()));
+
             return new ResponseEntity(HttpStatus.OK);
         }
 
-
     }
+
 
     @GetMapping(value = "/active/{id}")
     public ResponseEntity active(@PathVariable(value = "id") Integer id) {
         int active = userImpl.active(id);
         if (active == 1) {
-            return ResponseEntity.ok().contentType(new MediaType(MediaType.TEXT_HTML, Charset.forName("utf-8"))).body("激活成功,<a href='http://lx.gggcloud.top'>登陆</a>");
+            return ResponseEntity.ok().contentType(new MediaType(MediaType.TEXT_HTML, Charset.forName("utf-8"))).body("激活成功,<a href='http://192.168.81.129'>登陆</a>");
         } else {
             return ResponseEntity.badRequest().contentType(new MediaType(MediaType.TEXT_HTML, Charset.forName("utf-8"))).body("激活失败,<a href='mailto:lx_stu@qq.com'>联系管理员</a>");
         }
@@ -126,7 +123,7 @@ public class UserController {
     @GetMapping(value = "test")
     @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity res() {
-        LOG.info("user has admin");
+        log.info("user has admin");
         return new ResponseEntity("xxx", HttpStatus.OK);
     }
 

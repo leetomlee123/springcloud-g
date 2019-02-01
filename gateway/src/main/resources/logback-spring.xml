@@ -174,7 +174,7 @@
     -->
     <appender name="LOGSTASH"
               class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>192.168.10.138:9601</destination>
+        <destination>192.168.81.129:9601</destination>
         <!-- encoder必须配置,有多种可选 -->
         <encoder charset="UTF-8"
                  class="net.logstash.logback.encoder.LogstashEncoder">

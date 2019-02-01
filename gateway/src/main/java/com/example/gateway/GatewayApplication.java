@@ -1,8 +1,8 @@
 package com.example.gateway;
 
 
-import com.leetomlee.cloud.common.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -12,14 +12,11 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.Date;
-import java.util.Optional;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * @author lee
@@ -77,7 +74,10 @@ public class GatewayApplication {
         return new UriKeyResolver();
     }
 
-
+    @Test
+    public void c() throws UnknownHostException {
+        System.out.println(InetAddress.getLocalHost().getHostAddress());
+    }
 }
 
 
