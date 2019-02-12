@@ -15,7 +15,7 @@
         <module>user</module>
         <module>gateway</module>
         <module>common</module>
-        <module>book</module>
+        <!--<module>book</module>-->
         <!--<module>im</module>-->
         <!--<module>webflux</module>-->
         <!--<module>eureka</module>-->
